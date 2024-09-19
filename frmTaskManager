@@ -1,25 +1,30 @@
-package tasks;
+package TaskManagerApp;
 
+import java.util.List;
 import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-public class TaskFrame extends javax.swing.JFrame {
-    TaskManager taskManager = new TaskManager();
+/**
+ *
+ * @author Valdez-Ju
+ */
+public class frmTaskManager extends javax.swing.JFrame {
+    TaskManagerApp taskManager = new TaskManagerApp();
     Vector v = new Vector();
-    
     String taskID;
     String taskDescription;
     Task task;
-    
+
+
     /**
-     * Creates new form TaskFrame
+     * Creates new form frmTaskManager
      */
-    public TaskFrame() {
+    public frmTaskManager() {
+        JScrollPane scrollPane = new JScrollPane(tblTask);
+        scrollPane.setViewportView(tblTask);
         initComponents();
-        
-        taskID = "Task" + (taskManager.getSizeTaskManager() + 1);
-        txtTask.setText(taskID);
     }
 
     /**
@@ -32,196 +37,161 @@ public class TaskFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         btnAdd = new javax.swing.JButton();
-        btnComplete = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblTask = new javax.swing.JTable();
-        btnList = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
-        btnExit = new javax.swing.JButton();
+        btnMarkCompleted = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtTask = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtDescription = new javax.swing.JTextArea();
+        txtTask = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
+        btnDeleteTask = new javax.swing.JButton();
+        btnListTask = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        btnExit = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnAdd.setText("+");
+        btnAdd.setText("Add Task");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddActionPerformed(evt);
             }
         });
+        getContentPane().add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 31, 147, 43));
 
-        btnComplete.setText("Mark task completed");
-        btnComplete.addActionListener(new java.awt.event.ActionListener() {
+        btnMarkCompleted.setText("Mark Task Completed");
+        btnMarkCompleted.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCompleteActionPerformed(evt);
+                btnMarkCompletedActionPerformed(evt);
             }
         });
+        getContentPane().add(btnMarkCompleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 85, 147, 41));
 
-        tblTask.setModel(new javax.swing.table.DefaultTableModel(
+        jLabel1.setText("Task ID");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(336, 57, -1, -1));
+
+        jLabel2.setText("Description");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(336, 88, -1, -1));
+        getContentPane().add(txtTask, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 54, 179, -1));
+        getContentPane().add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(393, 85, 176, -1));
+
+        btnDeleteTask.setText("Delete Task");
+        btnDeleteTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteTaskActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDeleteTask, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 132, 147, 46));
+
+        btnListTask.setText("List Task");
+        btnListTask.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListTaskActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnListTask, new org.netbeans.lib.awtextra.AbsoluteConstraints(48, 190, 147, 40));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Task ID", "Description", "Completed"
+                "Task ID", "Description", "Status"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tblTask);
-        if (tblTask.getColumnModel().getColumnCount() > 0) {
-            tblTask.getColumnModel().getColumn(0).setResizable(false);
-            tblTask.getColumnModel().getColumn(2).setResizable(false);
-        }
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 237, 661, 298));
 
-        btnList.setText("List tasks");
-
-        btnDelete.setText("Delete task");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
-
-        btnExit.setText("Exit");
+        btnExit.setText("Exit Program");
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
             }
         });
+        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(597, 189, -1, 42));
 
-        jLabel1.setText("Description");
-
-        jLabel2.setText("Task ID");
-
-        txtTask.setText("Task1");
-
-        txtDescription.setColumns(20);
-        txtDescription.setRows(5);
-        jScrollPane2.setViewportView(txtDescription);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(10, 10, 10)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnExit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAdd))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(27, 27, 27)
-                                .addComponent(txtTask))
-                            .addComponent(btnList)
-                            .addComponent(btnDelete)
-                            .addComponent(btnComplete))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnComplete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnList)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtTask))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAdd)
-                            .addComponent(btnExit)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Valdez-Ju\\Downloads\\ndmu field and brc.jpg")); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 550));
 
         pack();
     }// </editor-fold>                        
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        DefaultTableModel mTask = (DefaultTableModel) this.tblTask.getModel();
+        // TODO add your handling code here:
+        DefaultTableModel mTask = (DefaultTableModel)this.tblTask.getModel();
         v = new Vector();
         
-        if (txtDescription.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Description empty.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        else {
+        if(txtTask.getText().isEmpty() || txtDescription.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Fill-up all data of TASK", "ERROR", JOptionPane.ERROR_MESSAGE);
+    }
+        else{
+            taskID = txtTask.getText();
             taskDescription = txtDescription.getText();
-            task = new Task (taskID, taskDescription);
-            taskManager.addTask (task);
-            v.add (taskID);
-            v.add (taskDescription);
-            v.add ("NOT COMPLETED");
-            mTask.addRow (v);
-            taskID = "Task" + (taskManager.getSizeTaskManager() + 1);
-            txtTask.setText(taskID);
+            task = new Task(taskID, taskDescription);
+            taskManager.addTask(task);
+            v.add(taskID);
+            v.add(taskDescription);
+            mTask.addRow(v);
+            txtTask.setText("");
             txtDescription.setText("");
         }
-            
     }                                      
 
-    private void btnCompleteActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        String compTaskID = JOptionPane.showInputDialog("Enter Task ID");
+    private void btnMarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+        // TODO add your handling code here:
+        int selectedRow= tblTask.getSelectedRow();
         
-        for (int i = 0; i < tblTask.getRowCount(); i++) {
-            if (tblTask.getValueAt(i, 0).toString().equals(compTaskID)) {
-                if (tblTask.getValueAt(i, 2).toString().equals("COMPLETED")) {
-                    JOptionPane.showMessageDialog(this, "Task already completed.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                tblTask.setValueAt("COMPLETED", i, 2);
-                taskManager.markTaskAsCompleted(tblTask.getValueAt(0, i).toString());
-                return;
-            }
-        }
+        if (selectedRow >= 0) {
+        // Update the TaskManager (you'll need to implement this method)
+        String taskID = (String) tblTask.getValueAt(selectedRow, 0); // Get the Task ID
+        taskManager.markTaskAsCompleted(taskID); // Assume you have this method in TaskManager
         
-        JOptionPane.showMessageDialog(this, "Task not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Update the status in the table
+        tblTask.setValueAt("Completed", selectedRow, 2); // Update the Status column to "Completed"
+    } else {
+        // Show an error message if no task is selected
+        JOptionPane.showMessageDialog(this, "Please select a task to mark as completed", "Error", JOptionPane.ERROR_MESSAGE);
+    }                  
+    }                                                
+
+    private void btnDeleteTaskActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        // TODO add your handling code here:
+        int selectedRow = tblTask.getSelectedRow();
+
+    if (selectedRow >= 0) {
+        String taskID = (String) tblTask.getValueAt(selectedRow, 0);
+        taskManager.removeTask(taskID);
+        DefaultTableModel model = (DefaultTableModel) tblTask.getModel();
+        model.removeRow(selectedRow);
+        
+        JOptionPane.showMessageDialog(this, "Task deleted successfully.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Please select a task to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+    }        
+    }                                             
+
+    private void btnListTaskActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        // TODO add your handling code here:
+        DefaultTableModel mTask = (DefaultTableModel) this.tblTask.getModel();
+    
+  
+    mTask.setRowCount(0);
+
+    List<Task> tasks = taskManager.listAllTasks(); 
+
+    for (Task task : tasks) {
+        Vector<String> row = new Vector<>();
+        row.add(task.getTaskId()); // Add Task ID
+        row.add(task.getDescription()); // Add Task Description
+        row.add(task.isCompleted() ? "Completed" : "Not Completed"); // Add status
+        mTask.addRow(row); // Add the row to the table model
+    }
     }                                           
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        DefaultTableModel mTask = (DefaultTableModel) this.tblTask.getModel();
-        String removeTaskDesc = JOptionPane.showInputDialog("Enter Description");
-        
-        for (int i = 0; i < tblTask.getRowCount(); i++) {
-            if (tblTask.getValueAt(i, 1).toString().equals(removeTaskDesc)) {
-                mTask.removeRow(i);
-                taskManager.removeTask(removeTaskDesc);
-                return;
-            }
-        }
-        
-        JOptionPane.showMessageDialog(this, "Task not found.", "Error", JOptionPane.ERROR_MESSAGE);
-    }                                         
-
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        // TODO add your handling code here:
         System.exit(0);
     }                                       
 
@@ -242,36 +212,35 @@ public class TaskFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TaskFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmTaskManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TaskFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmTaskManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TaskFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmTaskManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TaskFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmTaskManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TaskFrame().setVisible(true);
+                new frmTaskManager().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify                     
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnComplete;
-    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteTask;
     private javax.swing.JButton btnExit;
-    private javax.swing.JButton btnList;
+    private javax.swing.JButton btnListTask;
+    private javax.swing.JButton btnMarkCompleted;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tblTask;
-    private javax.swing.JTextArea txtDescription;
-    private javax.swing.JLabel txtTask;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtDescription;
+    private javax.swing.JTextField txtTask;
     // End of variables declaration                   
-}
