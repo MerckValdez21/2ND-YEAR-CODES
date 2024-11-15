@@ -1,0 +1,227 @@
+import java.util.Scanner;
+
+class TreeNode {
+    int value;
+    TreeNode left, right;
+
+    public TreeNode(int value) {
+        this.value = value;
+        left = right = null;
+    }
+}
+
+class BinarySearchTree {
+    private TreeNode root;
+
+    // Insert a value
+    public void insert(int value) {
+        root = insertRec(root, value);
+        System.out.println("Inserted " + value);
+    }
+
+    private TreeNode insertRec(TreeNode root, int value) {
+        if (root == null) return new TreeNode(value);
+        if (value < root.value) root.left = insertRec(root.left, value);
+        else if (value > root.value) root.right = insertRec(root.right, value);
+        return root;
+    }
+
+    // Search for a value
+    public boolean search(int value) {
+        TreeNode result = searchRec(root, value, null);
+        if (result != null) {
+            System.out.println("Value found, on the " +
+                (value < result.value ? "left" : "right") + " of Parent: " + result.value);
+            return true;
+        }
+        System.out.println("Value not found");
+        return false;
+    }
+
+    private TreeNode searchRec(TreeNode root, int value, TreeNode parent) {
+        if (root == null || root.value == value) return parent;
+        if (value < root.value) return searchRec(root.left, value, root);
+        return searchRec(root.right, value, root);
+    }
+
+    // Find minimum value
+    public int findMin() {
+        if (root == null) return -1;
+        TreeNode current = root;
+        while (current.left != null) current = current.left;
+        return current.value;
+    }
+
+    // Find maximum value
+    public int findMax() {
+        if (root == null) return -1;
+        TreeNode current = root;
+        while (current.right != null) current = current.right;
+        return current.value;
+    }
+
+    // Delete a node
+    public void delete(int value, int option) {
+        root = deleteRec(root, value, option);
+        System.out.println("Deleted " + value);
+    }
+
+    private TreeNode deleteRec(TreeNode root, int value, int option) {
+        if (root == null) return root;
+        if (value < root.value) root.left = deleteRec(root.left, value, option);
+        else if (value > root.value) root.right = deleteRec(root.right, value, option);
+        else {
+            if (root.left == null) return root.right;
+            if (root.right == null) return root.left;
+            root.value = (option == 1) ? findMax(root.left) : findMin(root.right);
+            if (option == 1) root.left = deleteRec(root.left, root.value, option);
+            else root.right = deleteRec(root.right, root.value, option);
+        }
+        return root;
+    }
+
+    private int findMin(TreeNode root) {
+        while (root.left != null) root = root.left;
+        return root.value;
+    }
+
+    private int findMax(TreeNode root) {
+        while (root.right != null) root = root.right;
+        return root.value;
+    }
+
+    // Traversals
+    public void inorder() {
+        System.out.print("Inorder Traversal: ");
+        inorderRec(root);
+        System.out.println();
+    }
+
+    private void inorderRec(TreeNode root) {
+        if (root != null) {
+            inorderRec(root.left);
+            System.out.print(root.value + " ");
+            inorderRec(root.right);
+        }
+    }
+
+    public void preorder() {
+        System.out.print("Pre-order Traversal: ");
+        preorderRec(root);
+        System.out.println();
+    }
+
+    private void preorderRec(TreeNode root) {
+        if (root != null) {
+            System.out.print(root.value + " ");
+            preorderRec(root.left);
+            preorderRec(root.right);
+        }
+    }
+
+    public void postorder() {
+        System.out.print("Post-order Traversal: ");
+        postorderRec(root);
+        System.out.println();
+    }
+
+    private void postorderRec(TreeNode root) {
+        if (root != null) {
+            postorderRec(root.left);
+            postorderRec(root.right);
+            System.out.print(root.value + " ");
+        }
+    }
+
+    // Check if valid BST
+    public boolean isValidBST() {
+        return isValidBSTRec(root, null, null);
+    }
+
+    private boolean isValidBSTRec(TreeNode root, Integer min, Integer max) {
+        if (root == null) return true;
+        if ((min != null && root.value <= min) || (max != null && root.value >= max)) return false;
+        return isValidBSTRec(root.left, min, root.value) && isValidBSTRec(root.right, root.value, max);
+    }
+
+    // Find LCA
+    public int findLCA(int n1, int n2) {
+        TreeNode lca = findLCARec(root, n1, n2);
+        return lca == null ? -1 : lca.value;
+    }
+
+    private TreeNode findLCARec(TreeNode root, int n1, int n2) {
+        if (root == null) return null;
+        if (root.value > n1 && root.value > n2) return findLCARec(root.left, n1, n2);
+        if (root.value < n1 && root.value < n2) return findLCARec(root.right, n1, n2);
+        return root;
+    }
+
+    // Display root value
+    public int getRootValue() {
+        return root == null ? -1 : root.value;
+    }
+}
+
+public class BSTMenu {
+    public static void main(String[] args) {
+        BinarySearchTree bst = new BinarySearchTree();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nBinary Search Tree Operations Menu:");
+            System.out.println("1. Insert a value");
+            System.out.println("2. Search for a value");
+            System.out.println("3. Find minimum value");
+            System.out.println("4. Find maximum value");
+            System.out.println("5. Delete a node");
+            System.out.println("6. Inorder traversal");
+            System.out.println("7. Pre-order traversal");
+            System.out.println("8. Post-order traversal");
+            System.out.println("9. Check if valid BST");
+            System.out.println("10. Find Lowest Common Ancestor (LCA)");
+            System.out.println("11. Display root value");
+            System.out.println("12. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter value to insert: ");
+                    bst.insert(scanner.nextInt());
+                }
+                case 2 -> {
+                    System.out.print("Enter value to search: ");
+                    bst.search(scanner.nextInt());
+                }
+                case 3 -> System.out.println("Minimum value: " + bst.findMin());
+                case 4 -> System.out.println("Maximum value: " + bst.findMax());
+                case 5 -> {
+                    System.out.print("Enter value to delete: ");
+                    int value = scanner.nextInt();
+                    System.out.println("Delete using:");
+                    System.out.println("1. In-order Predecessor");
+                    System.out.println("2. In-order Successor");
+                    bst.delete(value, scanner.nextInt());
+                }
+                case 6 -> bst.inorder();
+                case 7 -> bst.preorder();
+                case 8 -> bst.postorder();
+                case 9 -> System.out.println("The tree is " + (bst.isValidBST() ? "a valid BST." : "not a valid BST."));
+                case 10 -> {
+                    System.out.print("Enter first value for LCA: ");
+                    int n1 = scanner.nextInt();
+                    System.out.print("Enter second value for LCA: ");
+                    int n2 = scanner.nextInt();
+                    System.out.println("LCA of " + n1 + " and " + n2 + " is: " + bst.findLCA(n1, n2));
+                }
+                case 11 -> System.out.println("Current root value: " + bst.getRootValue());
+                case 12 -> {
+                    System.out.println("Exiting...");
+                    return;
+                }
+                default -> System.out.println("Invalid choice!");
+            }
+        }
+    }
+}
